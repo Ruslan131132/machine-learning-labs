@@ -2,10 +2,12 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from PIL import Image
 from scipy.signal import argrelmin
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+OUTPUT_DIR = Path(__file__).resolve().parent / "output"
 IMAGE_PATH = DATA_DIR / "plane.jpg"
 
 # ITU-R BT.601 luma coefficients for RGB -> grayscale conversion
@@ -51,3 +53,15 @@ x, y = np.where(segmented_img == 255)
 new_img[x, y, 0] = 240
 plt.imshow(new_img)
 plt.show()
+
+# Label every pixel by the brightness region bounded by the 3rd and 5th local minima:
+# 1 - all channels are dark, 2 - all channels are in the middle range, 3 - everything else
+low, high = local_minima[2], local_minima[4]
+pixels = img.transpose(1, 0, 2).reshape(-1, 3).astype(int)
+labels = np.full(len(pixels), 3)
+labels[np.all((pixels > low) & (pixels <= high), axis=1)] = 2
+labels[np.all(pixels <= low, axis=1)] = 1
+
+OUTPUT_DIR.mkdir(exist_ok=True)
+result = pd.DataFrame({"R": pixels[:, 0], "G": pixels[:, 1], "B": pixels[:, 2], "label": labels})
+result.to_csv(OUTPUT_DIR / "rgbl_result.csv")
