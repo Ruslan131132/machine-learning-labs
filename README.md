@@ -14,6 +14,7 @@ Python 3 · NumPy · pandas · SciPy · scikit-learn · Matplotlib · seaborn ·
 
 | # | Topic | Methods |
 |---|-------|---------|
+| 01 | [Brightness-based image segmentation](lab01-image-segmentation) | Histogram analysis, local minima, threshold search |
 
 *The list is updated as the labs are completed.*
 
