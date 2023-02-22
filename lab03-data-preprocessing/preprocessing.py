@@ -4,11 +4,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from sklearn.preprocessing import StandardScaler
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 RAW_DATASET_PATH = DATA_DIR / "dataframe.csv"
 
+TARGET = "attack"
 LOW_INFORMATION_SHARE = 0.90
+Z_SCORE_LIMIT = 3
 
 data_frame = pd.read_csv(RAW_DATASET_PATH)
 
@@ -61,3 +64,13 @@ data_frame.drop(["category", "subcategory "], axis=1, inplace=True)
 data_frame.drop(["proto", "saddr", "daddr", "sport", "dport"], axis=1, inplace=True)
 
 # 3. All remaining features are numeric, so no categorical encoding is required
+
+# 4. Standardize features to zero mean and unit variance; the binary target is left as is
+feature_cols = data_frame.columns.drop(TARGET)
+scaler = StandardScaler().fit(data_frame[feature_cols].values)
+data_frame[feature_cols] = scaler.transform(data_frame[feature_cols].values)
+
+# 5. Drop rows with outliers: |z| > 3 in any feature
+for col in feature_cols:
+    data_frame.loc[(data_frame[col] > Z_SCORE_LIMIT) | (data_frame[col] < -Z_SCORE_LIMIT), col] = None
+data_frame = data_frame.dropna()
