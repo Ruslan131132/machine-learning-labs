@@ -5,9 +5,11 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from sklearn.preprocessing import StandardScaler
+from sklearn.utils import resample
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 RAW_DATASET_PATH = DATA_DIR / "dataframe.csv"
+PROCESSED_DATASET_PATH = DATA_DIR / "new_data.csv"
 
 TARGET = "attack"
 LOW_INFORMATION_SHARE = 0.90
@@ -74,3 +76,17 @@ data_frame[feature_cols] = scaler.transform(data_frame[feature_cols].values)
 for col in feature_cols:
     data_frame.loc[(data_frame[col] > Z_SCORE_LIMIT) | (data_frame[col] < -Z_SCORE_LIMIT), col] = None
 data_frame = data_frame.dropna()
+
+# 6. Balance classes by downsampling the majority class (attacks) to the size of the minority class
+data_majority = data_frame[data_frame[TARGET] == 1]
+data_minority = data_frame[data_frame[TARGET] == 0]
+data_majority_downsampled = resample(
+    data_majority,
+    replace=False,
+    n_samples=len(data_minority),
+    random_state=600,
+)
+data_frame = pd.concat([data_majority_downsampled, data_minority])
+
+data_frame.to_csv(PROCESSED_DATASET_PATH)
+print(f"Saved {len(data_frame)} rows to {PROCESSED_DATASET_PATH}")
