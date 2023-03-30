@@ -17,6 +17,7 @@ Python 3 · NumPy · pandas · SciPy · scikit-learn · Matplotlib · seaborn ·
 | 01 | [Brightness-based image segmentation](lab01-image-segmentation) | Histogram analysis, local minima, threshold search |
 | 03 | [Preprocessing of the BoT-IoT dataset](lab03-data-preprocessing) | Feature selection, standardization, z-score outliers, class balancing |
 | 04 | [k-NN attack classifier](lab04-knn-classifier) | k-nearest neighbors, anomaly check, class probabilities |
+| 05 | [Decision tree attack classifier](lab05-decision-tree) | Entropy-based decision tree, tree visualization |
 
 *The list is updated as the labs are completed.*
 
