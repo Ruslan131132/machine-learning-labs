@@ -18,6 +18,7 @@ Python 3 · NumPy · pandas · SciPy · scikit-learn · Matplotlib · seaborn ·
 | 03 | [Preprocessing of the BoT-IoT dataset](lab03-data-preprocessing) | Feature selection, standardization, z-score outliers, class balancing |
 | 04 | [k-NN attack classifier](lab04-knn-classifier) | k-nearest neighbors, anomaly check, class probabilities |
 | 05 | [Decision tree attack classifier](lab05-decision-tree) | Entropy-based decision tree, tree visualization |
+| 06 | [Naive Bayes attack classifier](lab06-naive-bayes) | Gaussian Naive Bayes |
 
 *The list is updated as the labs are completed.*
 
