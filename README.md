@@ -19,6 +19,7 @@ Python 3 · NumPy · pandas · SciPy · scikit-learn · Matplotlib · seaborn ·
 | 04 | [k-NN attack classifier](lab04-knn-classifier) | k-nearest neighbors, anomaly check, class probabilities |
 | 05 | [Decision tree attack classifier](lab05-decision-tree) | Entropy-based decision tree, tree visualization |
 | 06 | [Naive Bayes attack classifier](lab06-naive-bayes) | Gaussian Naive Bayes |
+| 07 | [SVM attack classifier](lab07-svm) | Support vector machine (RBF kernel) |
 
 *The list is updated as the labs are completed.*
 
