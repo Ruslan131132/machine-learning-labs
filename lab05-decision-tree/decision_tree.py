@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn import tree
+from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -59,3 +60,14 @@ print("Object is within the admissible range.")
 prediction = dtree.predict(test_object)
 probabilities = dtree.predict_proba(test_object)
 print("Prediction:", prediction, "with probabilities", probabilities)
+
+# Lab 8.1: repeat the experiment in the space of principal components
+pca = PCA()
+principal_components = pca.fit_transform(X)
+pc_columns = [f"PC{i}" for i in range(1, pca.n_components_ + 1)]
+principal_df_X = pd.DataFrame(principal_components, columns=pc_columns)
+X_train, X_test, Y_train, Y_test = train_test_split(principal_df_X, Y, test_size=0.25, random_state=0)
+dtree_pca = DecisionTreeClassifier(criterion="entropy", max_depth=2, min_samples_leaf=37)
+dtree_pca.fit(X_train, Y_train)
+Y_prediction = dtree_pca.predict(X_test)
+print("Accuracy in principal component space:", accuracy_score(Y_test, Y_prediction))

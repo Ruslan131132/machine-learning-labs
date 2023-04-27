@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -51,3 +52,12 @@ print("Object is within the admissible range.")
 prediction = knn.predict(test_object)
 probabilities = knn.predict_proba(test_object)
 print("Prediction:", prediction, "with probabilities", probabilities)
+
+# Lab 8.1: repeat the experiment in the space of the first two principal components
+pca = PCA(n_components=2)
+principal_df_X = pd.DataFrame(pca.fit_transform(X), columns=["PC1", "PC2"])
+X_train, X_test, Y_train, Y_test = train_test_split(principal_df_X, Y, test_size=0.25, random_state=0)
+knn_pca = KNeighborsClassifier(n_neighbors=3, metric="euclidean")
+knn_pca.fit(X_train, Y_train)
+Y_prediction = knn_pca.predict(X_test)
+print("Accuracy in principal component space:", accuracy_score(Y_test, Y_prediction))
