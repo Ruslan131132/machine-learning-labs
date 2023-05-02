@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn import svm
+from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
@@ -50,3 +51,14 @@ print("Object is within the admissible range.")
 prediction = svm_classifier.predict(test_object)
 probabilities = svm_classifier.predict_proba(test_object)
 print("Prediction:", prediction, "with probabilities", probabilities)
+
+# Lab 8.1: repeat the experiment in the space of principal components
+pca = PCA()
+principal_components = pca.fit_transform(X)
+pc_columns = [f"PC{i}" for i in range(1, pca.n_components_ + 1)]
+principal_df_X = pd.DataFrame(principal_components, columns=pc_columns)
+X_train, X_test, Y_train, Y_test = train_test_split(principal_df_X, Y, test_size=0.25, random_state=0)
+svm_pca = svm.SVC(probability=True)
+svm_pca.fit(X_train, Y_train)
+Y_prediction = svm_pca.predict(X_test)
+print("Accuracy in principal component space:", accuracy_score(Y_test, Y_prediction))
