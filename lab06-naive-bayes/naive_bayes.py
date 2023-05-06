@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.naive_bayes import GaussianNB
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -61,3 +61,10 @@ gnb_pca = GaussianNB()
 gnb_pca.fit(X_train, Y_train)
 Y_prediction = gnb_pca.predict(X_test)
 print("Accuracy in principal component space:", accuracy_score(Y_test, Y_prediction))
+
+# Lab 8.2: K-fold cross-validation on the original feature space
+kf = KFold(n_splits=5)
+scores = cross_val_score(gnb, X, Y, cv=kf)
+print("Cross-validation scores:", scores)
+print("Mean cross-validation score:", scores.mean())
+print("Number of folds:", len(scores))

@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn import svm
 from sklearn.decomposition import PCA
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold, cross_val_score, train_test_split
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 DATASET_PATH = DATA_DIR / "new_data.csv"
@@ -62,3 +62,10 @@ svm_pca = svm.SVC(probability=True)
 svm_pca.fit(X_train, Y_train)
 Y_prediction = svm_pca.predict(X_test)
 print("Accuracy in principal component space:", accuracy_score(Y_test, Y_prediction))
+
+# Lab 8.2: K-fold cross-validation on the original feature space
+kf = KFold(n_splits=5)
+scores = cross_val_score(svm_classifier, X, Y, cv=kf)
+print("Cross-validation scores:", scores)
+print("Mean cross-validation score:", scores.mean())
+print("Number of folds:", len(scores))
