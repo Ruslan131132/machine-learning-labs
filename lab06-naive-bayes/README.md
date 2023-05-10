@@ -26,6 +26,8 @@ Naive Bayes is noticeably weaker than k-NN and the decision tree on this data: t
 `bytes`/`sbytes` or `rate`/`srate` are strongly correlated, which breaks the independence assumption,
 and their distributions are far from normal even after standardization.
 
+The script also contains the PCA and cross-validation experiments for this model — see [lab 8](../lab08-pca-and-cross-validation) for the comparison.
+
 ## Run
 
 ```bash

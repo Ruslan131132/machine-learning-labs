@@ -27,6 +27,8 @@ With default hyperparameters (`C=1.0`, `gamma="scale"`) the SVM is on par with N
 confident than the tree-based and distance-based models. Most flows are packed close to zero after standardization,
 so the RBF kernel needs tuning of `C` and `gamma` to separate the classes well.
 
+The script also contains the PCA and cross-validation experiments for this model — see [lab 8](../lab08-pca-and-cross-validation) for the comparison.
+
 ## Run
 
 ```bash

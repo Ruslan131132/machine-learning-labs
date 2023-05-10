@@ -29,6 +29,8 @@ the second level uses `mean` and `rate`.
 
 ![Decision tree](images/decision-tree.png)
 
+The script also contains the PCA and cross-validation experiments for this model — see [lab 8](../lab08-pca-and-cross-validation) for the comparison.
+
 ## Run
 
 ```bash

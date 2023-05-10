@@ -26,6 +26,8 @@ Using the dataset from [lab 3](../lab03-data-preprocessing), build a classifier 
 | Sample object | not anomalous |
 | Prediction for the sample object | class `1` (attack), probabilities `[0.0, 1.0]` |
 
+The script also contains the PCA and cross-validation experiments for this model — see [lab 8](../lab08-pca-and-cross-validation) for the comparison.
+
 ## Run
 
 ```bash
