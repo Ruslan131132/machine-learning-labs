@@ -2,6 +2,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 from sklearn.decomposition import PCA
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -29,3 +30,18 @@ plt.show()
 # The same projection colored by class: 0 - normal traffic, 1 - attack
 plt.scatter(principal_df_X["PC1"], principal_df_X["PC2"], c=Y, s=20)
 plt.show()
+
+# 2. Heatmap of feature loadings for the first two principal components
+ax = sns.heatmap(
+    pca.components_,
+    yticklabels=[f"PC{i}" for i in range(1, pca.n_components_ + 1)],
+    xticklabels=list(X.columns),
+    cbar_kws={"orientation": "horizontal"},
+)
+ax.set_aspect("equal")
+plt.show()
+
+# 3. Features with near-zero loadings in both components are the least informative
+loadings = pd.DataFrame(pca.components_, index=["PC1", "PC2"], columns=X.columns)
+print("Features ordered from least to most informative:")
+print(loadings.abs().max().sort_values())

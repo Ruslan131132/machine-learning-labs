@@ -21,6 +21,7 @@ Python 3 · NumPy · pandas · SciPy · scikit-learn · Matplotlib · seaborn ·
 | 06 | [Naive Bayes attack classifier](lab06-naive-bayes) | Gaussian Naive Bayes |
 | 07 | [SVM attack classifier](lab07-svm) | Support vector machine (RBF kernel) |
 | 08 | [PCA projection and cross-validation](lab08-pca-and-cross-validation) | PCA, K-fold cross-validation, model comparison |
+| 09 | [Data visualization with PCA](lab09-pca-visualization) | PCA projection, loadings heatmap, feature informativeness |
 
 *The list is updated as the labs are completed.*
 
