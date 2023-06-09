@@ -1,6 +1,8 @@
+import colorsys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 
@@ -9,8 +11,12 @@ OUTPUT_DIR = Path(__file__).resolve().parent / "output"
 COLORS_PATH = DATA_DIR / "colors_2.csv"
 HTML_PATH = OUTPUT_DIR / "lab10_colors_2.html"
 
-# Picked from the elbow plot
+LUMA_WEIGHTS = [0.299, 0.587, 0.114]
+
+# Picked from the elbow plots
 RGB_CLUSTERS = 6
+HSV_CLUSTERS = 4
+GRAY_CLUSTERS = 4
 
 
 def plot_elbow(data, k_range, title):
@@ -52,6 +58,33 @@ plot_elbow(rgb_points, range(1, 15), "RGB")
 kmeans = KMeans(n_clusters=RGB_CLUSTERS, n_init=10)
 kmeans.fit(rgb_points)
 result = build_cluster_table("RGB", kmeans.cluster_centers_, rgb_points, kmeans.labels_)
+
+# Repeat the clustering with colors expressed in the HSV model
+hsv_rows = []
+for r, g, b in rgb_points:
+    h, s, v = colorsys.rgb_to_hsv(r / 255, g / 255, b / 255)
+    # OpenCV-style ranges: H in [0, 179], S and V in [0, 255]
+    hsv_rows.append([int(h * 179), int(s * 255), int(v * 255)])
+hsv_points = np.array(hsv_rows)
+
+plot_elbow(hsv_points, range(1, 15), "HSV")
+kmeans_hsv = KMeans(n_clusters=HSV_CLUSTERS, n_init=10)
+kmeans_hsv.fit(hsv_points)
+result += build_cluster_table("HSV", kmeans_hsv.cluster_centers_, hsv_points, kmeans_hsv.labels_)
+
+# ...and in grayscale, using the same luma weights as in lab 1
+gray_points = rgb_points @ np.array(LUMA_WEIGHTS)
+gray_points = gray_points.reshape(-1, 1)
+
+plot_elbow(gray_points, range(1, 10), "gray")
+kmeans_gray = KMeans(n_clusters=GRAY_CLUSTERS, n_init=10)
+kmeans_gray.fit(gray_points)
+result += build_cluster_table(
+    "Gray",
+    kmeans_gray.cluster_centers_.repeat(3, axis=1),
+    gray_points.repeat(3, axis=1),
+    kmeans_gray.labels_,
+)
 
 OUTPUT_DIR.mkdir(exist_ok=True)
 HTML_PATH.write_text(result, encoding="utf-8")
