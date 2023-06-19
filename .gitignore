@@ -16,3 +16,7 @@ data/*
 
 # Generated artifacts
 **/output/
+
+# Original coursework materials kept locally only
+Код/
+Отчеты/
